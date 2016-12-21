@@ -8,9 +8,10 @@ $mysql_db="edcrs";
 
 
 if(!mysql_connect($mysql_host, $mysql_user, $mysql_pass) || !mysql_select_db("$mysql_db")){
-    echo $mysql_error_text;
+        echo $mysql_error_text;
 }
 else{//echo "Connected";
 }
+
 
 ?>
