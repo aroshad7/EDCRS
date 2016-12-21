@@ -24,7 +24,7 @@ else{
 if($query_run=mysql_query($query)){
     if(mysql_num_rows($query_run)!=0){
         $query_row = mysql_fetch_assoc($query_run);
-        if($md5(password) == $query_row['password']){
+        if(md5($password) == $query_row['password']){
             echo "Login Successful!";
             echo "Welcome"."query_two";
 
