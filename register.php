@@ -1,5 +1,5 @@
 <html>
-<title>Login Page</title>
+<title>Registration Page</title>
 <body>
 
 Log in to your account!<br><br>
