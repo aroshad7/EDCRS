@@ -1,4 +1,3 @@
-
 <?php
 $servername = "localhost";
 $username = "root";
@@ -20,17 +19,17 @@ $email = $_POST["email"];
 $national_id = $_POST["national_id"];
 $type = $_POST["type"];
 
-if($type==1){
+if($type=="1"){
 //$query="SELECT `password` FROM `doctor` WHERE `user_id`='$user_id'";
     $sql = "INSERT INTO doctor"."(doc_id,full_name,password,email,national_id)"."VALUES('$id','$full_name','$password','$email','$national_id')";
 }
-elseif($type==2){
+elseif($type=="2"){
 //$query="SELECT `password` FROM `health_officer` WHERE `officer_id`='$officer_id'";
     $sql = "INSERT INTO health_officer"."(officer_id,full_name,password,email,national_id)"."VALUES('$id','$full_name','$password','$email','$national_id')";
 }
 
 if ($conn->query($sql) === TRUE) {
-    echo "Registration successful";
+    echo "Registration Successful!";
 } else {
     echo "Error : " . $sql . "<br>" . $conn->error;
 }

@@ -12,6 +12,7 @@ Log in to your account!<br><br>
     <label for="district_name">District Name : </label><input type="text" name="district_name"><br>
     <label for="postal_code">Postal Code : </label><input type="text" name="postal_code"><br>
     <label for="age">Age : </label><input type="text" name="age"><br>
+    <label for="status">Status : </label><input type="text" name="status"><br>
     <label for="disease_name">Disease Name : </label><input type="text" name="disease_name"><br>
     <label for="disease_type">Disease Type : </label><input type="text" name="disease_type"><br>
     <label for="disease_description">Disease Description : </label><input type="text" name="disease_description"><br>
