@@ -21,21 +21,22 @@ if ($conn->connect_error) {
 }
 
 $doc_id = $_POST["doc_id"];
+
 $full_name = $_POST["full_name"];
 $national_id = $_POST["national_id"];
-
-$postal_code = $_POST["postal_code"];
+$postal_code = null;//$_POST["postal_code"];
 $city_name = $_POST["city_name"];
 $district_name = $_POST["district_name"];
 $district_id = get_district_id($district_name);
 $city_id = city_id_calculate($city_name, $district_name);
-
 $age = (int)$_POST["age"];
 $age_group_id = age_group_calculate($age);
+$status = $_POST["status"];
 
 $disease_id = $_POST["disease_name"];
 $disease_type = $_POST["disease_type"];
 $disease_description = $_POST["disease_description"];
+$report_id = null;//$_POST["report_id"];
 $disease_name = $disease_id;
 
 
@@ -44,16 +45,16 @@ $disease_name = $disease_id;
 
 $check_patient_sql = "SELECT `national_id` FROM `patients` WHERE `national_id`='$national_id'";
 $patient_update_sql = "UPDATE `edcrs`.`patients` SET `age`='$age', `age_group_id`='$age_group_id' WHERE `national_id`='$national_id'";
-$patient_insert_sql = "INSERT INTO patients"."(full_name,national_id,age,age_group_id)"."VALUES('$full_name','$national_id','$age','$age_group_id')";
+$patient_insert_sql = "INSERT INTO patients"."(full_name,national_id,age,age_group_id,city_id)"."VALUES('$full_name','$national_id','$age','$age_group_id','$city_id')";
 $checked_insert_sql = "INSERT INTO checked"."(doc_id,national_id)"."VALUES('$doc_id','$national_id')";
-$diagnose_insert_sql = "INSERT INTO diagnosed_with"."(national_id,disease_id)"."VALUES('$national_id','$disease_id')";
+$diagnose_insert_sql = "INSERT INTO diagnosed_with"."(national_id,disease_id,status)"."VALUES('$national_id','$disease_id','$status')";
 
 $check_city_sql = "SELECT `city_id` FROM `city` WHERE `city_id`='$city_id'";
-$city_insert_sql = "INSERT INTO city"."(city_id,city_name,postal_code,district_id)"."VALUES('$city_id','$city_name','$postal_code','$district_id')";
+$city_insert_sql = "INSERT INTO city"."(city_id,city_name,district_id)"."VALUES('$city_id','$city_name','$district_id')";
 
 $check_disease_sql = "SELECT `disease_id` FROM `epidemic_disease` WHERE `disease_id`='$disease_id'";
 $disease_insert_sql = "INSERT INTO epidemic_disease"."(disease_id,disease_name,type,description)"."VALUES('$disease_id','$disease_name','$disease_type','$disease_description')";
-$has_insert_sql =  "INSERT INTO has"."(disease_name,report_id)"."VALUES('$disease_name','$disease_type','$disease_description')";
+$has_insert_sql =  "INSERT INTO has"."(disease_name,report_id)"."VALUES('$disease_name','$report_id')";
 $report_insert_sql = "INSERT INTO reports"."(doc_id,disease_id)"."VALUES('$doc_id','$disease_id')";
 $infects_insert_sql = "INSERT INTO infects"."(disease_id,age_group_id)"."VALUES('$disease_id','$age_group_id')";
 $found_in_insert_sql = "INSERT INTO found_in"."(disease_id,city_id)"."VALUES('$disease_id','$city_id')";
@@ -63,16 +64,16 @@ if($query_run_checked=mysql_query($check_city_sql)){
     if(mysql_num_rows($query_run_checked)==0){
         $query_stat=mysql_query($city_insert_sql);
         echo ("City added!");
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
     else{
         echo "City already exists!";
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
 }
 else{
     echo mysql_error();
-    echo PHP_EOL;
+    echo nl2br("\n");
 }
 
 
@@ -84,16 +85,16 @@ if($query_run_disease=mysql_query($check_disease_sql)){
         $query_stat=mysql_query($infects_insert_sql);
         $query_stat=mysql_query($found_in_insert_sql);
         echo ("Disease added!");
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
     else{
         echo "Disease already exists!";
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
 }
 else{
     echo mysql_error();
-    echo PHP_EOL;
+    echo nl2br("\n");
 }
 
 
@@ -103,17 +104,17 @@ if($query_run_disease=mysql_query($check_patient_sql)){
         $query_stat=mysql_query($diagnose_insert_sql);
         $query_stat=mysql_query($checked_insert_sql);
         echo ("Person added!");
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
     else{
-        $query_stat=mysql_query($patient_update_sql);
+        $query_stat=mysql_query($patient_update_sql);       //server level validation
         echo "Person updated!";
-        echo PHP_EOL;
+        echo nl2br("\n");
     }
 }
 else{
     echo mysql_error();
-    echo PHP_EOL;
+    echo nl2br("\n");
 }
 
 
@@ -167,13 +168,13 @@ function get_district_id($district_name){
                 return ($query_row['district_id']);
             }
             else{
-                echo "Invalid user_id!";
-                echo PHP_EOL;
+                echo "Invalid district_id!";
+                echo nl2br("\n");
             }
         }
         else{
             echo mysql_error();
-            echo PHP_EOL;
+            echo nl2br("\n");
         }
     return;
 }
